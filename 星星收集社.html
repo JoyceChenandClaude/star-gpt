@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#17172b">
+<title>星星收集社</title>
+<style>
+:root{
+ --site-primary:#7164df; --site-on-primary:#ffffff;
+ --site-secondary:#f5b95c; --site-on-secondary:#241b35;
+ --site-background:#17172b; --site-on-background:#f8f5ff;
+ --site-font-body:ui-rounded,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+ --site-font-heading:ui-rounded,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+ --site-heading-scale:1; --site-spacing-scale:1; --site-radius-scale:1;
+ --site-decoration-opacity:1;
+ --panel:#242440; --muted:#aaa8cb; --pink:#ff8eb5; --mint:#8ce6d1;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--site-background);color:var(--site-on-background);font-family:var(--site-font-body)}
+body{min-height:100dvh;overflow-x:hidden}
+#app{min-height:100dvh;width:100%;background:var(--site-background);color:var(--site-on-background);padding:env(safe-area-inset-top) 16px calc(18px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
+.bg-orb{position:absolute;pointer-events:none;opacity:calc(.5 * var(--site-decoration-opacity));border-radius:50%;filter:blur(2px)}
+.orb1{width:220px;height:220px;background:#5447a0;top:-100px;right:-90px}
+.orb2{width:180px;height:180px;background:#9c426f;bottom:80px;left:-110px}
+header{max-width:520px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 2px 18px;position:relative}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:48px;height:48px;flex:none;filter:drop-shadow(0 5px 12px #8e73ff55)}
+h1{font-size:calc(21px * var(--site-heading-scale));line-height:1.15;margin:0;letter-spacing:.3px}
+.sub{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:1.4px}
+.pill{border:1px solid #494568;background:#2a2948;color:#ffdf93;border-radius:99px;padding:8px 11px;font-weight:700;font-size:13px;white-space:nowrap}
+main{max-width:520px;margin:0 auto;position:relative}
+.hero{padding:19px 19px 17px;border-radius:24px;background:linear-gradient(135deg,#6557c9,#38345f 65%,#493052);border:1px solid #ffffff20;box-shadow:0 14px 35px #08081745;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:150px;height:150px;border:1px solid #ffffff20;border-radius:50%;right:-44px;top:-54px;box-shadow:0 0 0 20px #ffffff08,0 0 0 42px #ffffff05;pointer-events:none}
+.eyebrow{font-size:11px;letter-spacing:2px;color:#dedaff;font-weight:800}
+.hero h2{font-size:26px;line-height:1.3;margin:9px 0 5px}
+.hero p{font-size:13px;color:#e2defe;margin:0;line-height:1.6;max-width:275px}
+.hero-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hero-emoji{font-size:62px;filter:drop-shadow(0 8px 8px #17102b55);transform:rotate(-8deg);margin-right:8px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:13px 0 17px}
+.stat{background:var(--panel);border:1px solid #ffffff0d;border-radius:16px;padding:12px 10px;text-align:center}
+.stat .n{font-size:21px;font-weight:850;letter-spacing:.3px}
+.stat .label{font-size:11px;color:var(--muted);margin-top:4px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 11px}
+.section-head h3{font-size:16px;margin:0}
+.section-head span{font-size:11px;color:var(--muted)}
+.game-card{background:#23233d;border:1px solid #444264;border-radius:23px;padding:13px;box-shadow:0 10px 26px #08081730}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1/1;background:#19192f;border-radius:15px;touch-action:none;border:1px solid #4b4772}
+.hud{display:flex;justify-content:space-between;align-items:center;padding:10px 3px 9px;font-size:12px;color:var(--muted)}
+.hud strong{color:#fff;font-size:16px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}
+.primary{background:var(--site-secondary);color:var(--site-on-secondary);border-radius:14px;padding:13px 10px;font-weight:850;box-shadow:0 4px 0 #bc8439}
+.secondary{background:#393756;color:#f5f0ff;border:1px solid #555174;border-radius:14px;padding:12px 10px;font-weight:750}
+.help{font-size:12px;color:var(--muted);line-height:1.7;margin:12px 4px 3px}
+.help b{color:#f7d994}
+.pad{display:grid;grid-template-columns:repeat(3,54px);grid-template-rows:repeat(2,43px);gap:5px;justify-content:center;margin:13px auto 2px}
+.pad button{background:#343251;border:1px solid #555174;border-radius:12px;color:#fff;font-size:18px;font-weight:800}
+.pad .empty{visibility:hidden}
+footer{text-align:center;color:#777596;font-size:10px;margin:22px 0 4px;letter-spacing:1px}
+@media(min-width:600px){#app{padding-top:22px}.hero{padding:23px}.hero h2{font-size:29px}}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="bg-orb orb1"></div><div class="bg-orb orb2"></div>
+<header>
+ <div class="brand">
+  <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="星星收集社图标">
+   <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe9a5"/><stop offset=".52" stop-color="#ff9ebd"/><stop offset="1" stop-color="#9c8aff"/></linearGradient></defs>
+   <rect x="2" y="2" width="60" height="60" rx="21" fill="#fff" fill-opacity=".13" stroke="#fff" stroke-opacity=".4"/>
+   <path d="M32 9 L37.7 24.5 54 25.4 41.3 35.7 45.5 51 32 42.2 18.5 51 22.7 35.7 10 25.4 26.3 24.5Z" fill="url(#g)" stroke="#fff4db" stroke-width="1.4" stroke-linejoin="round"/>
+   <circle cx="47" cy="14" r="3" fill="#fff5b8"/><circle cx="15" cy="45" r="2" fill="#b7f6f0"/>
+  </svg>
+  <div><h1>星星收集社</h1><div class="sub">TINY STAR ADVENTURE</div></div>
+ </div>
+ <div class="pill">✦ 第 <span id="day">1</span> 次冒险</div>
+</header>
+<main>
+ <section class="hero">
+  <div class="eyebrow">✧ 今日份的小小快乐</div>
+  <div class="hero-row"><div><h2>把星星都收进口袋吧！</h2><p>滑动小月亮，收集星星，躲开捣蛋的小彗星。你准备好了吗？</p></div><div class="hero-emoji">🌙</div></div>
+ </section>
+ <section class="stats">
+  <div class="stat"><div class="n" id="best">0</div><div class="label">最高纪录</div></div>
+  <div class="stat"><div class="n" id="total">0</div><div class="label">累计星星</div></div>
+  <div class="stat"><div class="n" id="lives">♥♥♥</div><div class="label">月亮能量</div></div>
+ </section>
+ <div class="section-head"><h3>🌌 月光收集挑战</h3><span>每颗星星都算数</span></div>
+ <section class="game-card">
+  <canvas id="game" width="360" height="360" aria-label="星星收集游戏区域"></canvas>
+  <div class="hud"><span id="status">准备好了吗？点开始游戏</span><span>本局 <strong id="score">0</strong> ✦</span></div>
+  <div class="actions"><button class="primary" id="start">开始游戏 ✨</button><button class="secondary" id="pause">暂停一下</button></div>
+  <div class="pad" aria-label="方向控制">
+   <button class="empty" tabindex="-1">·</button><button data-dir="up" aria-label="向上">↑</button><button class="empty" tabindex="-1">·</button>
+   <button data-dir="left" aria-label="向左">←</button><button data-dir="down" aria-label="向下">↓</button><button data-dir="right" aria-label="向右">→</button>
+  </div>
+  <div class="help">玩法：用 <b>方向键 / WASD</b> 或上面的按钮移动月亮。吃到 ✦ 加分，碰到彗星会失去能量。收集越多，彗星越调皮！</div>
+ </section>
+ <footer>MADE WITH ♡ · OFFLINE FRIENDLY · NO EXTERNAL ASSETS</footer>
+</main>
+</div>
+<script>
+(()=>{
+const c=document.getElementById('game'),ctx=c.getContext('2d');
+const $=id=>document.getElementById(id);
+const W=360, cell=30, count=12;
+let player={x:5,y:8}, star={x:3,y:3}, comets=[], score=0,lives=3,running=false,paused=false,timer=null,round=1,total=Number(localStorage.getItem('starTotal')||0),best=Number(localStorage.getItem('starBest')||0);
+$('total').textContent=total;$('best').textContent=best;
+const rand=()=>Math.floor(Math.random()*count);
+function freeSpot(){let p;do{p={x:rand(),y:rand()}}while((p.x===player.x&&p.y===player.y)||comets.some(q=>q.x===p.x&&q.y===p.y));return p}
+function reset(){player={x:5,y:8};star=freeSpot();comets=[];for(let i=0;i<2;i++)comets.push({...freeSpot(),dx:Math.random()<.5?1:-1,dy:Math.random()<.5?1:-1,step:0});score=0;lives=3;round=1;paused=false;running=true;$('score').textContent=score;$('lives').textContent='♥♥♥';$('status').textContent='出发！去找闪闪发光的星星';$('start').textContent='重新开始 ↻';$('pause').textContent='暂停一下';draw();clearInterval(timer);timer=setInterval(tick,380)}
+function end(){running=false;clearInterval(timer);$('status').textContent='本局结束啦，收集了 '+score+' 颗星星！';$('start').textContent='再玩一局 ✨';}
+function move(dx,dy){if(!running){return}if(paused)return;player.x=Math.max(0,Math.min(11,player.x+dx));player.y=Math.max(0,Math.min(11,player.y+dy));check();draw()}
+function check(){if(player.x===star.x&&player.y===star.y){score++;total++;best=Math.max(best,score);$('score').textContent=score;$('total').textContent=total;$('best').textContent=best;localStorage.setItem('starTotal',total);localStorage.setItem('starBest',best);star=freeSpot();if(score%4===0){comets.push({...freeSpot(),dx:Math.random()<.5?1:-1,dy:Math.random()<.5?1:-1,step:0});$('status').textContent='哇！连收 '+score+' 颗，彗星又多一只！'}else $('status').textContent=['好闪呀！✨','月亮开心地转了个圈','又一颗收入囊中！','继续加油，小星星！'][Math.floor(Math.random()*4)]}
+for(const q of comets){if(q.x===player.x&&q.y===player.y){lives--;q.x=rand();q.y=rand();$('lives').textContent='♥'.repeat(lives)+'♡'.repeat(3-lives);$('status').textContent='哎呀，被彗星蹭到啦！';if(lives<=0)end();break}}}
+function tick(){if(!running||paused)return;for(const q of comets){q.step++;if(q.step%2===0){q.x+=q.dx;q.y+=q.dy;if(q.x<0||q.x>11)q.dx*=-1;if(q.y<0||q.y>11)q.dy*=-1;q.x=Math.max(0,Math.min(11,q.x));q.y=Math.max(0,Math.min(11,q.y))}}check();draw()}
+function rounded(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function draw(){ctx.clearRect(0,0,W,W);ctx.fillStyle='#19192f';ctx.fillRect(0,0,W,W);
+for(let y=0;y<count;y++)for(let x=0;x<count;x++){if((x+y)%2===0)rounded(x*cell+1,y*cell+1,28,28,5,'#20203a')}
+for(let i=0;i<34;i++){let x=(i*73+17)%W,y=(i*47+29)%W;ctx.fillStyle=i%3===0?'#a9a2ed':'#77759d';ctx.globalAlpha=.25+(i%4)*.12;ctx.beginPath();ctx.arc(x,y,i%5===0?1.5:0.8,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+ctx.save();ctx.translate(star.x*cell+15,star.y*cell+15);ctx.shadowColor='#ffe28a';ctx.shadowBlur=13;ctx.fillStyle='#ffe28a';ctx.beginPath();for(let i=0;i<10;i++){let r=i%2===0?10:4.5,a=-Math.PI/2+i*Math.PI/5;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();ctx.fill();ctx.restore();
+for(const q of comets){ctx.save();ctx.translate(q.x*cell+15,q.y*cell+15);ctx.rotate(Math.PI/4);ctx.shadowColor='#ff82b3';ctx.shadowBlur=10;rounded(-7,-7,14,14,5,'#ff8eb5');ctx.shadowBlur=0;ctx.fillStyle='#67365d';ctx.fillRect(-3,-2,2,2);ctx.fillRect(2,-2,2,2);ctx.restore()}
+ctx.save();ctx.translate(player.x*cell+15,player.y*cell+15);ctx.shadowColor='#9cece2';ctx.shadowBlur=14;ctx.fillStyle='#9cece2';ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#35345c';ctx.beginPath();ctx.arc(2,-2,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff2bd';ctx.beginPath();ctx.arc(5,-6,2,0,Math.PI*2);ctx.fill();ctx.restore();
+if(!running){ctx.fillStyle='#11112699';ctx.fillRect(0,0,W,W);ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='bold 18px system-ui';ctx.fillText(score?'再来一次？':'收集星星，开启冒险',180,169);ctx.font='13px system-ui';ctx.fillStyle='#d5d0fa';ctx.fillText('点下方按钮开始',180,194)}else if(paused){ctx.fillStyle='#111126aa';ctx.fillRect(0,0,W,W);ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='bold 22px system-ui';ctx.fillText('休息一小会儿 ☾',180,183)}}
+function pause(){if(!running)return;paused=!paused;$('pause').textContent=paused?'继续游戏 ▶':'暂停一下';$('status').textContent=paused?'星星等你回来':'继续出发！';draw()}
+$('start').addEventListener('click',reset);$('pause').addEventListener('click',pause);
+document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>{let d=b.dataset.dir;move(d==='left'?-1:d==='right'?1:0,d==='up'?-1:d==='down'?1:0)}));
+document.addEventListener('keydown',e=>{let k=e.key.toLowerCase(),map={arrowup:[0,-1],w:[0,-1],arrowdown:[0,1],s:[0,1],arrowleft:[-1,0],a:[-1,0],arrowright:[1,0],d:[1,0]};if(map[k]){e.preventDefault();move(...map[k])}if(k===' '){e.preventDefault();pause()}});
+let touch=null;c.addEventListener('touchstart',e=>{touch={x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}},{passive:true});c.addEventListener('touchend',e=>{if(!touch)return;let dx=e.changedTouches[0].clientX-touch.x,dy=e.changedTouches[0].clientY-touch.y;if(Math.max(Math.abs(dx),Math.abs(dy))>18){if(Math.abs(dx)>Math.abs(dy))move(dx>0?1:-1,0);else move(0,dy>0?1:-1)}touch=null},{passive:true});
+$('day').textContent='1';draw();
+})();
+</script>
+</body></html>
